@@ -19,8 +19,3 @@ def send_link(request):
     next = request.POST.get('next', '/')
     return redirect(next)
 
-
-@require_POST
-def login(request):
-    pass
-

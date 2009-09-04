@@ -60,13 +60,11 @@ class LinkAuth(TestCase):
 
     def testUrls(self):
         self.assertEqual('/send-link/', reverse('auth-send-link'))
-        self.assertEqual('/login/', reverse('login-by-hash'))
 
 
     def testGetsNotAllowed(self):
         c = Client()
         self.assertEqual(405, c.get('/send-link/').status_code)
-        self.assertEqual(405, c.get('/login/').status_code)
 
 
     def testPostEmailRaisesSignal(self):
