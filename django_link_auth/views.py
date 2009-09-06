@@ -9,7 +9,7 @@ from django_link_auth.models import Hash
 from django_link_auth.signals import hash_was_generated
 
 @require_POST
-def send_link(request):
+def send_login_link(request):
     email = request.POST.get('email')
     hash = md5.md5(email + settings.SECRET_KEY + str(time.time())).hexdigest()
     Hash(email = email, hash = hash).save()

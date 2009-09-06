@@ -50,6 +50,7 @@ class LinkAuth(TestCase):
     urls = 'django_link_auth.test_urls'
 
     def setUp(self):
+        self.login_url = reverse('send-login-link')
         mock_dt()
         super(LinkAuth, self).setUp()
 
@@ -58,13 +59,9 @@ class LinkAuth(TestCase):
         super(LinkAuth, self).tearDown()
 
 
-    def testUrls(self):
-        self.assertEqual('/send-link/', reverse('auth-send-link'))
-
-
     def testGetsNotAllowed(self):
         c = Client()
-        self.assertEqual(405, c.get('/send-link/').status_code)
+        self.assertEqual(405, c.get(self.login_url).status_code)
 
 
     def testPostEmailRaisesSignal(self):
@@ -75,7 +72,7 @@ class LinkAuth(TestCase):
             kw[0] = kwargs
         hash_was_generated.connect(handler)
 
-        r = c.post('/send-link/', data = dict(email = 'svetlyak.40wt@gmail.com'))
+        r = c.post(self.login_url, data = dict(email = 'svetlyak.40wt@gmail.com'))
 
         self.assert_(kw[0] is not None)
         self.assert_('hash' in kw[0])
@@ -90,7 +87,7 @@ class LinkAuth(TestCase):
             kw[0] = kwargs
         hash_was_generated.connect(handler)
 
-        r = c.post('/send-link/', data = dict(email = 'svetlyak.40wt@gmail.com'))
+        r = c.post(self.login_url, data = dict(email = 'svetlyak.40wt@gmail.com'))
         self.assertEqual(True, c.login(hash = kw[0]['hash']))
 
 
@@ -102,7 +99,7 @@ class LinkAuth(TestCase):
             kw[0] = kwargs
         hash_was_generated.connect(handler)
 
-        r = c.post('/send-link/', data = dict(email = 'svetlyak.40wt@gmail.com'))
+        r = c.post(self.login_url, data = dict(email = 'svetlyak.40wt@gmail.com'))
 
         datetime.datetime.goto_future(minutes = 10)
         self.assertEqual(True, c.login(hash = kw[0]['hash']))
