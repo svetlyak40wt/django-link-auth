@@ -3,11 +3,10 @@ import sys
 from setuptools import setup
 
 sys.path.insert(0, '.')
-from django_link_auth import __version__ as version
 
 setup(
     name = 'django-link-auth',
-    version = version,
+    version = '0.1.0',
     description = "Django's authentication backend to login by temporary URLs.",
     keywords = 'django apps authentication',
     license = 'New BSD License',
