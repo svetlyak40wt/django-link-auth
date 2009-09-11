@@ -149,7 +149,7 @@ class LinkAuth(TestCase):
         self.assertEqual(
             [
                 (SESSION_KEY, 1),
-                (BACKEND_SESSION_KEY, 'django_link_auth.LinkBackend')
+                (BACKEND_SESSION_KEY, 'django_link_auth.backends.LinkBackend')
             ],
             c.session.items())
         self.assertEqual(302, r.status_code)
