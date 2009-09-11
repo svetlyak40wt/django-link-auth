@@ -8,9 +8,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.backends import ModelBackend
 
 from django_link_auth.models import Hash
-
-# Link's lifetime in seconds. Default - 15 minutes
-AUTH_LINK_LIFETIME = getattr(settings, 'AUTH_LINK_LIFETIME', 60 * 15)
+from django_link_auth.settings import AUTH_LINK_LIFETIME
 
 class LinkBackend(ModelBackend):
     def authenticate(self, hash = None):

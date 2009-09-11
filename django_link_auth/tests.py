@@ -53,8 +53,8 @@ class LinkAuth(TestCase):
     urls = 'django_link_auth.test_urls'
 
     def setUp(self):
-        self.send_login_url = reverse('send-login-link')
-        self.login_url = reverse('login')
+        self.send_login_url = reverse('link-auth-send')
+        self.login_url = reverse('link-auth-login')
         mock_dt()
         super(LinkAuth, self).setUp()
 
