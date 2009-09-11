@@ -8,6 +8,7 @@ from django.contrib.auth import \
     SESSION_KEY, \
     BACKEND_SESSION_KEY
 
+from django_link_auth.models import Hash
 from django_link_auth.signals import hash_was_generated
 
 _real_dt = datetime.datetime
@@ -104,6 +105,19 @@ class LinkAuth(TestCase):
 
         datetime.datetime.goto_future(minutes = 20)
         self.assertEqual(False, c.login(hash = hash))
+
+
+    def testOldHashesExpire(self):
+        c = Client()
+        hash = self.getHash()
+
+        datetime.datetime.goto_future(minutes = 10)
+        self.assertEqual(1, Hash.valid.count())
+        self.assertEqual(0, Hash.expired.count())
+
+        datetime.datetime.goto_future(minutes = 20)
+        self.assertEqual(0, Hash.valid.count())
+        self.assertEqual(1, Hash.expired.count())
 
 
     def testMockDt(self):

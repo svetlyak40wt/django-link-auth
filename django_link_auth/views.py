@@ -3,10 +3,10 @@ import time
 
 from pdb import set_trace
 from django.conf import settings
+from django.http import Http404
 
 from django.shortcuts import \
-    redirect, \
-    get_object_or_404
+    redirect
 
 from django.views.decorators.http import \
     require_POST, \
@@ -40,7 +40,11 @@ def login(request):
         authenticate
 
     hash = request.GET.get('hash')
-    obj = get_object_or_404(Hash, hash = hash)
+
+    try:
+        obj = Hash.valid.get(hash = hash)
+    except Hash.DoesNotExist:
+        raise Http404
 
     user = authenticate(hash = hash)
     login(request, user)

@@ -13,11 +13,7 @@ from django_link_auth.settings import AUTH_LINK_LIFETIME
 class LinkBackend(ModelBackend):
     def authenticate(self, hash = None):
         try:
-            hash = Hash.objects.get(
-                hash = hash,
-                created_at__gte = datetime.datetime.utcnow() - \
-                                  datetime.timedelta(0, AUTH_LINK_LIFETIME)
-            )
+            hash = Hash.valid.get(hash = hash)
         except Hash.DoesNotExist:
             return None
 
