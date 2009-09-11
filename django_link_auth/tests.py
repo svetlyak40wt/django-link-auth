@@ -91,9 +91,13 @@ class LinkAuth(TestCase):
 
     def testLogin(self):
         c = Client()
+
+        self.assertEqual(0, Hash._default_manager.count())
+
         hash = self.getHash()
-        r = c.post(self.send_login_url, data = dict(email = 'svetlyak.40wt@gmail.com'))
+
         self.assertEqual(True, c.login(hash = hash))
+        self.assertEqual(0, Hash._default_manager.count())
 
 
     def testLoginViaExpiredLink(self):
